@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { CustomerForm } from "@/components/CustomerForm";
 import { downloadCsv, exportPdf } from "@/lib/csv";
+import { formatDate } from "@/lib/utils";
 import {
   AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
   AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
@@ -69,7 +70,7 @@ function CustomersPage() {
   const exportRows = filtered.map((c) => ({
     Name: c.full_name, Email: c.email ?? "", Phone: c.phone ?? "",
     Company: c.company_name ?? "", Vehicle: c.preferred_vehicle ?? "",
-    Tags: (c.tags ?? []).join(", "), Created: c.created_at.slice(0, 10),
+    Tags: (c.tags ?? []).join(", "), Created: formatDate(c.created_at),
   }));
 
   return (

@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { formatDate } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -106,7 +107,7 @@ function CustomerDetail() {
     const unpaid = bookings.filter((b) => b.payment_status !== "paid" && b.payment_status !== "refunded");
     const total = unpaid.reduce((s, b) => s + Number(b.amount ?? 0), 0);
     const lines = unpaid.length
-      ? unpaid.map((b) => `• ${b.booking_date} ${b.pickup_location} → ${b.dropoff_location}  $${Number(b.amount).toFixed(2)}`).join("%0D%0A")
+      ? unpaid.map((b) => `• ${formatDate(b.booking_date)} ${b.pickup_location} → ${b.dropoff_location}  $${Number(b.amount).toFixed(2)}`).join("%0D%0A")
       : "All bookings are currently settled.";
     const subject = encodeURIComponent(`Superior Limousine LLC — Invoice for ${customer.full_name}`);
     const body =
@@ -168,7 +169,10 @@ function CustomerDetail() {
             <Button onClick={sendInvoice} variant="outline" size="sm">
               <Send className="h-4 w-4 mr-2" /> Send Invoice
             </Button>
-            <Button onClick={() => setActiveTab("history")} variant="outline" size="sm">
+            <Button onClick={() => {
+              setActiveTab("history");
+              document.getElementById("tabs-section")?.scrollIntoView({ behavior: "smooth", block: "start" });
+            }} variant="outline" size="sm">
               <FileText className="h-4 w-4 mr-2" /> View Ride History
             </Button>
             <Button onClick={() => setConfirmDel(true)} variant="outline" size="sm" className="border-rose-500/40 text-rose-300 hover:bg-rose-500/10">
@@ -181,8 +185,8 @@ function CustomerDetail() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-6">
           <Stat icon={<Calendar className="h-4 w-4" />} label="Total Trips" value={totalTrips} />
           <Stat icon={<DollarSign className="h-4 w-4" />} label="Total Spent" value={`$${totalSpent.toLocaleString(undefined, { minimumFractionDigits: 2 })}`} />
-          <Stat icon={<CheckCircle2 className="h-4 w-4" />} label="Last Ride" value={lastRide ?? "—"} />
-          <Stat icon={<UserCheck className="h-4 w-4" />} label="Client Since" value={customer.created_at.slice(0, 10)} />
+          <Stat icon={<CheckCircle2 className="h-4 w-4" />} label="Last Ride" value={lastRide ? formatDate(lastRide) : "—"} />
+          <Stat icon={<UserCheck className="h-4 w-4" />} label="Client Since" value={formatDate(customer.created_at)} />
         </div>
       </div>
 
@@ -191,7 +195,7 @@ function CustomerDetail() {
         <Section title="Contact">
           <InfoRow icon={<Mail className="h-4 w-4 text-gold" />} label="Email" value={customer.email} />
           <InfoRow icon={<Phone className="h-4 w-4 text-gold" />} label="Phone" value={customer.phone} />
-          <InfoRow icon={<Calendar className="h-4 w-4 text-gold" />} label="Date of Birth" value={customer.date_of_birth} />
+          <InfoRow icon={<Calendar className="h-4 w-4 text-gold" />} label="Date of Birth" value={formatDate(customer.date_of_birth)} />
         </Section>
         <Section title="Addresses">
           <InfoRow icon={<MapPin className="h-4 w-4 text-gold" />} label="Home" value={customer.home_address} multiline />
@@ -202,7 +206,7 @@ function CustomerDetail() {
           <InfoRow icon={<Building2 className="h-4 w-4 text-gold" />} label="Company" value={customer.company_name} />
           <InfoRow icon={<UserCheck className="h-4 w-4 text-gold" />} label="Status" value={status} capitalize />
           <InfoRow icon={<FileText className="h-4 w-4 text-gold" />} label={customer.id_type || "ID"} value={customer.id_number} />
-          <InfoRow icon={<Calendar className="h-4 w-4 text-gold" />} label="Client Since" value={customer.created_at.slice(0, 10)} />
+          <InfoRow icon={<Calendar className="h-4 w-4 text-gold" />} label="Client Since" value={formatDate(customer.created_at)} />
         </Section>
         <Section title="Service Preferences">
           <InfoRow icon={<Car className="h-4 w-4 text-gold" />} label="Preferred Vehicle" value={customer.preferred_vehicle} />
@@ -239,7 +243,7 @@ function CustomerDetail() {
               {upcoming.slice(0, 4).map((b) => (
                 <li key={b.id} className="flex items-center justify-between text-sm border-l-2 border-gold/40 pl-3 py-1">
                   <div>
-                    <div className="font-medium">{b.booking_date} · {b.booking_time.slice(0, 5)}</div>
+                    <div className="font-medium">{formatDate(b.booking_date)} · {b.booking_time?.slice(0, 5) ?? ""}</div>
                     <div className="text-xs text-muted-foreground">{b.pickup_location} → {b.dropoff_location}</div>
                   </div>
                   <RideBadge status={b.ride_status} />
@@ -250,8 +254,9 @@ function CustomerDetail() {
         </Section>
       </div>
 
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
-        <TabsList className="bg-card border border-border">
+      <div id="tabs-section" className="scroll-mt-6">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
+          <TabsList className="bg-card border border-border">
           <TabsTrigger value="history">Ride History ({bookings.length})</TabsTrigger>
           <TabsTrigger value="completed">Completed ({completed.length})</TabsTrigger>
           <TabsTrigger value="notes">Notes ({notes.length})</TabsTrigger>
@@ -276,13 +281,14 @@ function CustomerDetail() {
                 <MessageSquare className="h-4 w-4 text-gold mt-1 shrink-0" />
                 <div className="flex-1">
                   <div className="text-sm whitespace-pre-wrap">{n.body}</div>
-                  <div className="text-xs text-muted-foreground mt-1">{new Date(n.created_at).toLocaleString()}</div>
+                  <div className="text-xs text-muted-foreground mt-1">{formatDate(n.created_at)} {new Date(n.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
                 </div>
               </div>
             ))}
           </div>
         </TabsContent>
       </Tabs>
+      </div>
 
       <CustomerForm open={editOpen} onOpenChange={setEditOpen} initial={customer} onSaved={load} />
       <BookingForm open={bookOpen} onOpenChange={setBookOpen} initial={editingBooking} defaultCustomerId={id} onSaved={load} />
@@ -365,7 +371,7 @@ function BookingsTable({ bookings, onRowClick }: { bookings: Booking[]; onRowCli
           )}
           {bookings.map((b) => (
             <tr key={b.id} className="border-b border-border/50 cursor-pointer hover:bg-muted/30" onClick={() => onRowClick(b)}>
-              <td className="px-3 py-2 whitespace-nowrap">{b.booking_date} <span className="text-muted-foreground">{b.booking_time.slice(0,5)}</span></td>
+              <td className="px-3 py-2 whitespace-nowrap">{formatDate(b.booking_date)} <span className="text-muted-foreground">{b.booking_time?.slice(0,5) ?? ""}</span></td>
               <td className="px-3 py-2 text-muted-foreground">{b.pickup_location} <span className="text-gold">→</span> {b.dropoff_location}</td>
               <td className="px-3 py-2">{b.chauffeur_assigned ?? "—"}</td>
               <td className="px-3 py-2"><RideBadge status={b.ride_status} /></td>
