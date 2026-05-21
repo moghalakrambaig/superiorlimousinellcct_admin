@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { BookingForm, RIDE_STATUS, PAYMENT_STATUS } from "@/components/BookingForm";
 import { RideBadge, PayBadge } from "@/components/StatusBadges";
+import { formatDate } from "@/lib/utils";
 import { downloadCsv } from "@/lib/csv";
 import {
   AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
@@ -83,11 +84,11 @@ function BookingsPage() {
   }));
 
   return (
-    <div className="p-6 md:p-10 space-y-6 max-w-7xl mx-auto">
+    <div className="p-4 md:p-10 space-y-4 md:space-y-6 max-w-7xl mx-auto">
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
           <div className="text-xs uppercase tracking-[0.3em] text-gold mb-2">Reservations</div>
-          <h1 className="text-4xl font-display">Bookings</h1>
+          <h1 className="text-3xl md:text-4xl font-display">Bookings</h1>
         </div>
         <div className="flex gap-2">
           <Button variant="outline" onClick={() => downloadCsv("bookings.csv", exportRows)}>
@@ -100,7 +101,7 @@ function BookingsPage() {
       </div>
 
       <div className="luxury-card rounded-xl p-4 flex gap-3 flex-wrap items-center">
-        <div className="relative flex-1 min-w-[240px]">
+        <div className="relative flex-1 min-w-0 md:min-w-[240px] w-full">
           <Search className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
           <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search bookings…" className="pl-10" />
         </div>
@@ -146,7 +147,7 @@ function BookingsPage() {
                       {b.customers?.full_name ?? "—"}
                     </Link>
                   </td>
-                  <td className="px-4 py-2 text-muted-foreground whitespace-nowrap">{b.booking_date} · {b.booking_time.slice(0,5)}</td>
+                  <td className="px-4 py-2 text-muted-foreground whitespace-nowrap">{formatDate(b.booking_date)} · {b.booking_time?.slice(0,5) ?? ""}</td>
                   <td className="px-4 py-2 text-muted-foreground">{b.pickup_location} <span className="text-gold">→</span> {b.dropoff_location}</td>
                   <td className="px-4 py-2">{b.chauffeur_assigned ?? "—"}</td>
                   <td className="px-4 py-2"><RideBadge status={b.ride_status} /></td>

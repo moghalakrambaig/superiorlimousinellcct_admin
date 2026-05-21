@@ -74,11 +74,11 @@ function CustomersPage() {
   }));
 
   return (
-    <div className="p-6 md:p-10 space-y-6 max-w-7xl mx-auto">
+    <div className="p-4 md:p-10 space-y-4 md:space-y-6 max-w-7xl mx-auto">
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
           <div className="text-xs uppercase tracking-[0.3em] text-gold mb-2">Clients</div>
-          <h1 className="text-4xl font-display">Customers</h1>
+          <h1 className="text-3xl md:text-4xl font-display">Customers</h1>
         </div>
         <div className="flex gap-2 flex-wrap">
           <Button variant="outline" onClick={() => downloadCsv("customers.csv", exportRows)}>
@@ -94,7 +94,7 @@ function CustomersPage() {
       </div>
 
       <div className="luxury-card rounded-xl p-4 flex gap-3 flex-wrap items-center">
-        <div className="relative flex-1 min-w-[240px]">
+        <div className="relative flex-1 min-w-0 md:min-w-[240px] w-full">
           <Search className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
           <Input
             value={q}
@@ -103,7 +103,7 @@ function CustomersPage() {
             className="pl-10"
           />
         </div>
-        <div className="flex gap-1">
+        <div className="flex gap-1 flex-wrap overflow-x-auto pb-1 md:pb-0 hide-scrollbar">
           {["all", "VIP", "Corporate", "Frequent"].map((t) => (
             <button
               key={t}

@@ -59,13 +59,13 @@ function Dashboard() {
   }, []);
 
   return (
-    <div className="p-6 md:p-10 space-y-8 max-w-7xl mx-auto">
+    <div className="p-4 md:p-10 space-y-6 md:space-y-8 max-w-7xl mx-auto">
       <header className="flex items-center justify-between flex-wrap gap-4">
         <div>
           <div className="text-xs uppercase tracking-[0.3em] text-gold mb-2 flex items-center gap-2">
             <Crown className="h-3 w-3" /> Admin Dashboard
           </div>
-          <h1 className="text-4xl font-display">
+          <h1 className="text-3xl md:text-4xl font-display">
             Good evening, <span className="gradient-gold-text">welcome back</span>
           </h1>
           <p className="text-muted-foreground mt-1">Your fleet at a glance.</p>
@@ -83,7 +83,7 @@ function Dashboard() {
         />
       </div>
 
-      <section className="luxury-card rounded-xl p-6">
+      <section className="luxury-card rounded-xl p-4 md:p-6">
         <div className="flex items-center justify-between mb-4">
           <div>
             <h2 className="text-xl font-display flex items-center gap-2">
@@ -93,7 +93,7 @@ function Dashboard() {
           </div>
           <Link to="/bookings" className="text-sm text-gold hover:underline">View all →</Link>
         </div>
-        <div className="overflow-x-auto -mx-6">
+        <div className="overflow-x-auto -mx-4 md:-mx-6 px-4 md:px-6">
           <table className="w-full text-sm">
             <thead className="text-xs uppercase tracking-wider text-muted-foreground border-b border-border">
               <tr>
@@ -145,7 +145,7 @@ function StatCard({
   icon: React.ComponentType<{ className?: string }>;
 }) {
   return (
-    <div className="luxury-card rounded-xl p-5 group hover:gold-glow transition-shadow">
+    <div className="luxury-card rounded-xl p-4 md:p-5 group hover:gold-glow transition-shadow">
       <div className="flex items-center justify-between">
         <div className="text-xs uppercase tracking-wider text-muted-foreground">{label}</div>
         <div className="h-9 w-9 grid place-items-center rounded-md bg-gold-soft border border-gold/20">

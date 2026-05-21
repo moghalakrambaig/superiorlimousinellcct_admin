@@ -132,8 +132,8 @@ function CustomerDetail() {
   };
 
   return (
-    <div className="p-4 md:p-8 lg:p-10 max-w-7xl mx-auto space-y-6">
-      <div className="flex items-center justify-between flex-wrap gap-3">
+    <div className="p-4 md:p-10 space-y-6 max-w-7xl mx-auto">
+      <div className="flex items-center text-sm text-muted-foreground gap-2 mb-2">
         <Link to="/customers" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-gold">
           <ArrowLeft className="h-4 w-4" /> Back to customers
         </Link>
@@ -147,7 +147,7 @@ function CustomerDetail() {
         <div className="flex flex-wrap gap-6 items-start justify-between">
           <div className="space-y-3 min-w-0">
             <div className="text-xs uppercase tracking-[0.3em] text-gold">Client Profile</div>
-            <h1 className="text-3xl md:text-4xl font-display break-words">{customer.full_name}</h1>
+            <h1 className="text-3xl md:text-4xl font-display">{customer.full_name}</h1>
             <div className="flex gap-2 flex-wrap items-center">
               <Badge variant="outline" className={"capitalize " + (statusColor[status] ?? statusColor.active)}>
                 {status}
@@ -254,9 +254,9 @@ function CustomerDetail() {
         </Section>
       </div>
 
-      <div id="tabs-section" className="scroll-mt-6">
+      <div id="tabs-section" className="scroll-mt-4 md:scroll-mt-6">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
-          <TabsList className="bg-card border border-border">
+          <TabsList className="bg-card border border-border flex overflow-x-auto hide-scrollbar justify-start">
           <TabsTrigger value="history">Ride History ({bookings.length})</TabsTrigger>
           <TabsTrigger value="completed">Completed ({completed.length})</TabsTrigger>
           <TabsTrigger value="notes">Notes ({notes.length})</TabsTrigger>
@@ -353,7 +353,7 @@ function InfoRow({ icon, label, value, capitalize, multiline }: {
 
 function BookingsTable({ bookings, onRowClick }: { bookings: Booking[]; onRowClick: (b: Booking) => void }) {
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto -mx-4 md:-mx-4 px-4 md:px-0">
       <table className="w-full text-sm">
         <thead className="text-xs uppercase tracking-wider text-muted-foreground border-b border-border">
           <tr>

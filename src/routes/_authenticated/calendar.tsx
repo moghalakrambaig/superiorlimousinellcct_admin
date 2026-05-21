@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { RideBadge } from "@/components/StatusBadges";
+import { formatDate } from "@/lib/utils";
 
 export const Route = createFileRoute("/_authenticated/calendar")({
   component: CalendarPage,
@@ -63,11 +64,11 @@ function CalendarPage() {
   const monthLabel = cursor.toLocaleString(undefined, { month: "long", year: "numeric" });
 
   return (
-    <div className="p-6 md:p-10 space-y-6 max-w-7xl mx-auto">
+    <div className="p-4 md:p-10 space-y-4 md:space-y-6 max-w-7xl mx-auto">
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
           <div className="text-xs uppercase tracking-[0.3em] text-gold mb-2">Schedule</div>
-          <h1 className="text-4xl font-display">Calendar</h1>
+          <h1 className="text-3xl md:text-4xl font-display">Calendar</h1>
         </div>
         <div className="flex items-center gap-2">
           <Button variant="outline" size="icon" onClick={() => setCursor(new Date(cursor.getFullYear(), cursor.getMonth() - 1, 1))}><ChevronLeft className="h-4 w-4" /></Button>
@@ -76,11 +77,12 @@ function CalendarPage() {
         </div>
       </div>
 
-      <div className="luxury-card rounded-xl p-4">
-        <div className="grid grid-cols-7 gap-px text-xs uppercase tracking-wider text-muted-foreground mb-2">
-          {["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].map((d) => <div key={d} className="px-2 py-1">{d}</div>)}
-        </div>
-        <div className="grid grid-cols-7 gap-2">
+      <div className="luxury-card rounded-xl p-4 overflow-x-auto">
+        <div className="min-w-[700px]">
+          <div className="grid grid-cols-7 gap-px text-xs uppercase tracking-wider text-muted-foreground mb-2">
+            {["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].map((d) => <div key={d} className="px-2 py-1">{d}</div>)}
+          </div>
+          <div className="grid grid-cols-7 gap-2">
           {grid.map((d, i) => {
             const key = d ? d.toISOString().slice(0,10) : `empty-${i}`;
             const dayBookings = d ? (byDate.get(key) ?? []) : [];
@@ -97,7 +99,7 @@ function CalendarPage() {
                     <div className="space-y-1">
                       {dayBookings.slice(0, 3).map((b) => (
                         <div key={b.id} className="truncate bg-gold-soft border border-gold/20 rounded px-1.5 py-0.5">
-                          <span className="text-gold font-medium">{b.booking_time.slice(0,5)}</span>{" "}
+                          <span className="text-gold font-medium">{b.booking_time?.slice(0,5) ?? ""}</span>{" "}
                           <span className="text-foreground">{b.customers?.full_name ?? "—"}</span>
                         </div>
                       ))}
@@ -108,6 +110,7 @@ function CalendarPage() {
               </div>
             );
           })}
+          </div>
         </div>
       </div>
 
@@ -117,7 +120,7 @@ function CalendarPage() {
           {bookings.length === 0 && <p className="text-muted-foreground">No bookings.</p>}
           {bookings.map((b) => (
             <div key={b.id} className="flex items-center gap-3 px-2 py-1.5 hover:bg-muted/30 rounded-md">
-              <div className="text-gold w-32 text-xs">{b.booking_date} {b.booking_time.slice(0,5)}</div>
+              <div className="text-gold w-32 text-xs shrink-0">{formatDate(b.booking_date)} {b.booking_time?.slice(0,5) ?? ""}</div>
               <div className="flex-1 truncate">{b.customers?.full_name} — {b.pickup_location} → {b.dropoff_location}</div>
               <RideBadge status={b.ride_status} />
             </div>
