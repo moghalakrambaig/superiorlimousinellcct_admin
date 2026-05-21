@@ -18,7 +18,7 @@ type Customer = Database["public"]["Tables"]["customers"]["Row"];
 
 const PAGE_SIZE = 10;
 
-export const Route = createFileRoute("/_authenticated/customers")({
+export const Route = createFileRoute("/_authenticated/customers/")({
   component: CustomersPage,
 });
 
