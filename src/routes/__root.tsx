@@ -1,4 +1,6 @@
+import * as React from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useIsMobile } from "@/hooks/use-mobile";
 import {
   Outlet,
   Link,
@@ -92,6 +94,32 @@ function RootShell({ children }: { children: React.ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const router = useRouter();
+  const isMobile = useIsMobile();
+
+  React.useEffect(() => {
+    // Basic redirect logic to push users to /mobile branch if on small screen
+    // Note: In production you might want this to be SSR-aware or more robust
+    const path = window.location.pathname;
+    
+    // Only redirect if not already on a mobile path and device is mobile
+    if (isMobile && !path.startsWith("/mobile")) {
+      const target = path === "/" ? "/mobile" : `/mobile${path}`;
+      // avoid redirect loops
+      if (target !== path) {
+        router.navigate({ to: target as any, replace: true });
+      }
+    } 
+    // Redirect back to desktop if on a mobile path and device is desktop
+    else if (!isMobile && path.startsWith("/mobile")) {
+      let target = path.replace("/mobile", "");
+      if (target === "") target = "/";
+      if (target !== path) {
+        router.navigate({ to: target as any, replace: true });
+      }
+    }
+  }, [isMobile, router]);
+
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
