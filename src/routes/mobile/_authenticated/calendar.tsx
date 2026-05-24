@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, MapPin } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { RideBadge } from "@/components/StatusBadges";
+import { RideBadge } from "@/components/shared/StatusBadges";
 
 export const Route = createFileRoute("/mobile/_authenticated/calendar")({
   component: MobileCalendarPage,

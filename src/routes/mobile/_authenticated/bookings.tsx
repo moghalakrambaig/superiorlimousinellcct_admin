@@ -5,8 +5,8 @@ import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { BookingForm } from "@/components/BookingForm";
-import { RideBadge, PayBadge } from "@/components/StatusBadges";
+import { BookingForm } from "@/components/shared/BookingForm";
+import { RideBadge, PayBadge } from "@/components/shared/StatusBadges";
 import { formatDate } from "@/lib/utils";
 import {
   AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,

@@ -15,9 +15,9 @@ import {
   AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
   AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { CustomerForm } from "@/components/CustomerForm";
-import { BookingForm } from "@/components/BookingForm";
-import { RideBadge, PayBadge } from "@/components/StatusBadges";
+import { CustomerForm } from "@/components/shared/CustomerForm";
+import { BookingForm, RIDE_STATUS, PAYMENT_STATUS } from "@/components/shared/BookingForm";
+import { RideBadge, PayBadge } from "@/components/shared/StatusBadges";
 import type { Database } from "@/integrations/supabase/types";
 
 type Customer = Database["public"]["Tables"]["customers"]["Row"] & {
@@ -38,7 +38,7 @@ type Customer = Database["public"]["Tables"]["customers"]["Row"] & {
 type Booking = Database["public"]["Tables"]["bookings"]["Row"];
 type Note = Database["public"]["Tables"]["customer_notes"]["Row"];
 
-export const Route = createFileRoute("/_authenticated/customers/$id")({
+export const Route = createFileRoute("/_web/_authenticated/customers/$id")({
   component: CustomerDetail,
 });
 

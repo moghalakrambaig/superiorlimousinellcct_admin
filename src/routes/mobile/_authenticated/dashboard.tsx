@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Users, CarFront, Calendar as CalendarIcon, DollarSign, TrendingUp, ChevronRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Skeleton } from "@/components/ui/skeleton";
-import { RideBadge, PayBadge } from "@/components/StatusBadges";
+import { RideBadge, PayBadge } from "@/components/shared/StatusBadges";
 
 export const Route = createFileRoute("/mobile/_authenticated/dashboard")({
   component: MobileDashboard,

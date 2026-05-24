@@ -9,34 +9,25 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as MobileRouteRouteImport } from './routes/mobile/route'
-import { Route as IndexRouteImport } from './routes/index'
 import { Route as MobileIndexRouteImport } from './routes/mobile/index'
+import { Route as WebIndexRouteImport } from './routes/_web/index'
 import { Route as MobileAuthenticatedRouteImport } from './routes/mobile/_authenticated'
-import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
-import { Route as AuthenticatedCalendarRouteImport } from './routes/_authenticated/calendar'
-import { Route as AuthenticatedBookingsRouteImport } from './routes/_authenticated/bookings'
-import { Route as AuthenticatedCustomersIndexRouteImport } from './routes/_authenticated/customers.index'
+import { Route as WebAuthenticatedRouteImport } from './routes/_web/_authenticated'
 import { Route as MobileAuthenticatedDashboardRouteImport } from './routes/mobile/_authenticated/dashboard'
 import { Route as MobileAuthenticatedCalendarRouteImport } from './routes/mobile/_authenticated/calendar'
 import { Route as MobileAuthenticatedBookingsRouteImport } from './routes/mobile/_authenticated/bookings'
-import { Route as AuthenticatedCustomersIdRouteImport } from './routes/_authenticated/customers.$id'
+import { Route as WebAuthenticatedDashboardRouteImport } from './routes/_web/_authenticated/dashboard'
+import { Route as WebAuthenticatedCalendarRouteImport } from './routes/_web/_authenticated/calendar'
+import { Route as WebAuthenticatedBookingsRouteImport } from './routes/_web/_authenticated/bookings'
 import { Route as MobileAuthenticatedCustomersIndexRouteImport } from './routes/mobile/_authenticated/customers/index'
+import { Route as WebAuthenticatedCustomersIndexRouteImport } from './routes/_web/_authenticated/customers.index'
 import { Route as MobileAuthenticatedCustomersIdRouteImport } from './routes/mobile/_authenticated/customers/$id'
+import { Route as WebAuthenticatedCustomersIdRouteImport } from './routes/_web/_authenticated/customers.$id'
 
-const AuthenticatedRoute = AuthenticatedRouteImport.update({
-  id: '/_authenticated',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const MobileRouteRoute = MobileRouteRouteImport.update({
   id: '/mobile',
   path: '/mobile',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MobileIndexRoute = MobileIndexRouteImport.update({
@@ -44,31 +35,19 @@ const MobileIndexRoute = MobileIndexRouteImport.update({
   path: '/',
   getParentRoute: () => MobileRouteRoute,
 } as any)
+const WebIndexRoute = WebIndexRouteImport.update({
+  id: '/_web/',
+  path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MobileAuthenticatedRoute = MobileAuthenticatedRouteImport.update({
   id: '/_authenticated',
   getParentRoute: () => MobileRouteRoute,
 } as any)
-const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => AuthenticatedRoute,
+const WebAuthenticatedRoute = WebAuthenticatedRouteImport.update({
+  id: '/_web/_authenticated',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedCalendarRoute = AuthenticatedCalendarRouteImport.update({
-  id: '/calendar',
-  path: '/calendar',
-  getParentRoute: () => AuthenticatedRoute,
-} as any)
-const AuthenticatedBookingsRoute = AuthenticatedBookingsRouteImport.update({
-  id: '/bookings',
-  path: '/bookings',
-  getParentRoute: () => AuthenticatedRoute,
-} as any)
-const AuthenticatedCustomersIndexRoute =
-  AuthenticatedCustomersIndexRouteImport.update({
-    id: '/customers/',
-    path: '/customers/',
-    getParentRoute: () => AuthenticatedRoute,
-  } as any)
 const MobileAuthenticatedDashboardRoute =
   MobileAuthenticatedDashboardRouteImport.update({
     id: '/dashboard',
@@ -87,11 +66,23 @@ const MobileAuthenticatedBookingsRoute =
     path: '/bookings',
     getParentRoute: () => MobileAuthenticatedRoute,
   } as any)
-const AuthenticatedCustomersIdRoute =
-  AuthenticatedCustomersIdRouteImport.update({
-    id: '/customers/$id',
-    path: '/customers/$id',
-    getParentRoute: () => AuthenticatedRoute,
+const WebAuthenticatedDashboardRoute =
+  WebAuthenticatedDashboardRouteImport.update({
+    id: '/dashboard',
+    path: '/dashboard',
+    getParentRoute: () => WebAuthenticatedRoute,
+  } as any)
+const WebAuthenticatedCalendarRoute =
+  WebAuthenticatedCalendarRouteImport.update({
+    id: '/calendar',
+    path: '/calendar',
+    getParentRoute: () => WebAuthenticatedRoute,
+  } as any)
+const WebAuthenticatedBookingsRoute =
+  WebAuthenticatedBookingsRouteImport.update({
+    id: '/bookings',
+    path: '/bookings',
+    getParentRoute: () => WebAuthenticatedRoute,
   } as any)
 const MobileAuthenticatedCustomersIndexRoute =
   MobileAuthenticatedCustomersIndexRouteImport.update({
@@ -99,136 +90,134 @@ const MobileAuthenticatedCustomersIndexRoute =
     path: '/customers/',
     getParentRoute: () => MobileAuthenticatedRoute,
   } as any)
+const WebAuthenticatedCustomersIndexRoute =
+  WebAuthenticatedCustomersIndexRouteImport.update({
+    id: '/customers/',
+    path: '/customers/',
+    getParentRoute: () => WebAuthenticatedRoute,
+  } as any)
 const MobileAuthenticatedCustomersIdRoute =
   MobileAuthenticatedCustomersIdRouteImport.update({
     id: '/customers/$id',
     path: '/customers/$id',
     getParentRoute: () => MobileAuthenticatedRoute,
   } as any)
+const WebAuthenticatedCustomersIdRoute =
+  WebAuthenticatedCustomersIdRouteImport.update({
+    id: '/customers/$id',
+    path: '/customers/$id',
+    getParentRoute: () => WebAuthenticatedRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
   '/mobile': typeof MobileRouteRouteWithChildren
-  '/bookings': typeof AuthenticatedBookingsRoute
-  '/calendar': typeof AuthenticatedCalendarRoute
-  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/': typeof WebIndexRoute
   '/mobile/': typeof MobileIndexRoute
-  '/customers/$id': typeof AuthenticatedCustomersIdRoute
+  '/bookings': typeof WebAuthenticatedBookingsRoute
+  '/calendar': typeof WebAuthenticatedCalendarRoute
+  '/dashboard': typeof WebAuthenticatedDashboardRoute
   '/mobile/bookings': typeof MobileAuthenticatedBookingsRoute
   '/mobile/calendar': typeof MobileAuthenticatedCalendarRoute
   '/mobile/dashboard': typeof MobileAuthenticatedDashboardRoute
-  '/customers/': typeof AuthenticatedCustomersIndexRoute
+  '/customers/$id': typeof WebAuthenticatedCustomersIdRoute
   '/mobile/customers/$id': typeof MobileAuthenticatedCustomersIdRoute
+  '/customers/': typeof WebAuthenticatedCustomersIndexRoute
   '/mobile/customers/': typeof MobileAuthenticatedCustomersIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/bookings': typeof AuthenticatedBookingsRoute
-  '/calendar': typeof AuthenticatedCalendarRoute
-  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/': typeof WebIndexRoute
   '/mobile': typeof MobileIndexRoute
-  '/customers/$id': typeof AuthenticatedCustomersIdRoute
+  '/bookings': typeof WebAuthenticatedBookingsRoute
+  '/calendar': typeof WebAuthenticatedCalendarRoute
+  '/dashboard': typeof WebAuthenticatedDashboardRoute
   '/mobile/bookings': typeof MobileAuthenticatedBookingsRoute
   '/mobile/calendar': typeof MobileAuthenticatedCalendarRoute
   '/mobile/dashboard': typeof MobileAuthenticatedDashboardRoute
-  '/customers': typeof AuthenticatedCustomersIndexRoute
+  '/customers/$id': typeof WebAuthenticatedCustomersIdRoute
   '/mobile/customers/$id': typeof MobileAuthenticatedCustomersIdRoute
+  '/customers': typeof WebAuthenticatedCustomersIndexRoute
   '/mobile/customers': typeof MobileAuthenticatedCustomersIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
   '/mobile': typeof MobileRouteRouteWithChildren
-  '/_authenticated': typeof AuthenticatedRouteWithChildren
-  '/_authenticated/bookings': typeof AuthenticatedBookingsRoute
-  '/_authenticated/calendar': typeof AuthenticatedCalendarRoute
-  '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_web/_authenticated': typeof WebAuthenticatedRouteWithChildren
   '/mobile/_authenticated': typeof MobileAuthenticatedRouteWithChildren
+  '/_web/': typeof WebIndexRoute
   '/mobile/': typeof MobileIndexRoute
-  '/_authenticated/customers/$id': typeof AuthenticatedCustomersIdRoute
+  '/_web/_authenticated/bookings': typeof WebAuthenticatedBookingsRoute
+  '/_web/_authenticated/calendar': typeof WebAuthenticatedCalendarRoute
+  '/_web/_authenticated/dashboard': typeof WebAuthenticatedDashboardRoute
   '/mobile/_authenticated/bookings': typeof MobileAuthenticatedBookingsRoute
   '/mobile/_authenticated/calendar': typeof MobileAuthenticatedCalendarRoute
   '/mobile/_authenticated/dashboard': typeof MobileAuthenticatedDashboardRoute
-  '/_authenticated/customers/': typeof AuthenticatedCustomersIndexRoute
+  '/_web/_authenticated/customers/$id': typeof WebAuthenticatedCustomersIdRoute
   '/mobile/_authenticated/customers/$id': typeof MobileAuthenticatedCustomersIdRoute
+  '/_web/_authenticated/customers/': typeof WebAuthenticatedCustomersIndexRoute
   '/mobile/_authenticated/customers/': typeof MobileAuthenticatedCustomersIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
     | '/mobile'
+    | '/'
+    | '/mobile/'
     | '/bookings'
     | '/calendar'
     | '/dashboard'
-    | '/mobile/'
-    | '/customers/$id'
     | '/mobile/bookings'
     | '/mobile/calendar'
     | '/mobile/dashboard'
-    | '/customers/'
+    | '/customers/$id'
     | '/mobile/customers/$id'
+    | '/customers/'
     | '/mobile/customers/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/mobile'
     | '/bookings'
     | '/calendar'
     | '/dashboard'
-    | '/mobile'
-    | '/customers/$id'
     | '/mobile/bookings'
     | '/mobile/calendar'
     | '/mobile/dashboard'
-    | '/customers'
+    | '/customers/$id'
     | '/mobile/customers/$id'
+    | '/customers'
     | '/mobile/customers'
   id:
     | '__root__'
-    | '/'
     | '/mobile'
-    | '/_authenticated'
-    | '/_authenticated/bookings'
-    | '/_authenticated/calendar'
-    | '/_authenticated/dashboard'
+    | '/_web/_authenticated'
     | '/mobile/_authenticated'
+    | '/_web/'
     | '/mobile/'
-    | '/_authenticated/customers/$id'
+    | '/_web/_authenticated/bookings'
+    | '/_web/_authenticated/calendar'
+    | '/_web/_authenticated/dashboard'
     | '/mobile/_authenticated/bookings'
     | '/mobile/_authenticated/calendar'
     | '/mobile/_authenticated/dashboard'
-    | '/_authenticated/customers/'
+    | '/_web/_authenticated/customers/$id'
     | '/mobile/_authenticated/customers/$id'
+    | '/_web/_authenticated/customers/'
     | '/mobile/_authenticated/customers/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
   MobileRouteRoute: typeof MobileRouteRouteWithChildren
-  AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
+  WebAuthenticatedRoute: typeof WebAuthenticatedRouteWithChildren
+  WebIndexRoute: typeof WebIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/_authenticated': {
-      id: '/_authenticated'
-      path: ''
-      fullPath: '/'
-      preLoaderRoute: typeof AuthenticatedRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/mobile': {
       id: '/mobile'
       path: '/mobile'
       fullPath: '/mobile'
       preLoaderRoute: typeof MobileRouteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/mobile/': {
@@ -238,6 +227,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MobileIndexRouteImport
       parentRoute: typeof MobileRouteRoute
     }
+    '/_web/': {
+      id: '/_web/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof WebIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/mobile/_authenticated': {
       id: '/mobile/_authenticated'
       path: ''
@@ -245,33 +241,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MobileAuthenticatedRouteImport
       parentRoute: typeof MobileRouteRoute
     }
-    '/_authenticated/dashboard': {
-      id: '/_authenticated/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
-    '/_authenticated/calendar': {
-      id: '/_authenticated/calendar'
-      path: '/calendar'
-      fullPath: '/calendar'
-      preLoaderRoute: typeof AuthenticatedCalendarRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
-    '/_authenticated/bookings': {
-      id: '/_authenticated/bookings'
-      path: '/bookings'
-      fullPath: '/bookings'
-      preLoaderRoute: typeof AuthenticatedBookingsRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
-    '/_authenticated/customers/': {
-      id: '/_authenticated/customers/'
-      path: '/customers'
-      fullPath: '/customers/'
-      preLoaderRoute: typeof AuthenticatedCustomersIndexRouteImport
-      parentRoute: typeof AuthenticatedRoute
+    '/_web/_authenticated': {
+      id: '/_web/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof WebAuthenticatedRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/mobile/_authenticated/dashboard': {
       id: '/mobile/_authenticated/dashboard'
@@ -294,12 +269,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MobileAuthenticatedBookingsRouteImport
       parentRoute: typeof MobileAuthenticatedRoute
     }
-    '/_authenticated/customers/$id': {
-      id: '/_authenticated/customers/$id'
-      path: '/customers/$id'
-      fullPath: '/customers/$id'
-      preLoaderRoute: typeof AuthenticatedCustomersIdRouteImport
-      parentRoute: typeof AuthenticatedRoute
+    '/_web/_authenticated/dashboard': {
+      id: '/_web/_authenticated/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof WebAuthenticatedDashboardRouteImport
+      parentRoute: typeof WebAuthenticatedRoute
+    }
+    '/_web/_authenticated/calendar': {
+      id: '/_web/_authenticated/calendar'
+      path: '/calendar'
+      fullPath: '/calendar'
+      preLoaderRoute: typeof WebAuthenticatedCalendarRouteImport
+      parentRoute: typeof WebAuthenticatedRoute
+    }
+    '/_web/_authenticated/bookings': {
+      id: '/_web/_authenticated/bookings'
+      path: '/bookings'
+      fullPath: '/bookings'
+      preLoaderRoute: typeof WebAuthenticatedBookingsRouteImport
+      parentRoute: typeof WebAuthenticatedRoute
     }
     '/mobile/_authenticated/customers/': {
       id: '/mobile/_authenticated/customers/'
@@ -308,12 +297,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MobileAuthenticatedCustomersIndexRouteImport
       parentRoute: typeof MobileAuthenticatedRoute
     }
+    '/_web/_authenticated/customers/': {
+      id: '/_web/_authenticated/customers/'
+      path: '/customers'
+      fullPath: '/customers/'
+      preLoaderRoute: typeof WebAuthenticatedCustomersIndexRouteImport
+      parentRoute: typeof WebAuthenticatedRoute
+    }
     '/mobile/_authenticated/customers/$id': {
       id: '/mobile/_authenticated/customers/$id'
       path: '/customers/$id'
       fullPath: '/mobile/customers/$id'
       preLoaderRoute: typeof MobileAuthenticatedCustomersIdRouteImport
       parentRoute: typeof MobileAuthenticatedRoute
+    }
+    '/_web/_authenticated/customers/$id': {
+      id: '/_web/_authenticated/customers/$id'
+      path: '/customers/$id'
+      fullPath: '/customers/$id'
+      preLoaderRoute: typeof WebAuthenticatedCustomersIdRouteImport
+      parentRoute: typeof WebAuthenticatedRoute
     }
   }
 }
@@ -352,30 +355,29 @@ const MobileRouteRouteWithChildren = MobileRouteRoute._addFileChildren(
   MobileRouteRouteChildren,
 )
 
-interface AuthenticatedRouteChildren {
-  AuthenticatedBookingsRoute: typeof AuthenticatedBookingsRoute
-  AuthenticatedCalendarRoute: typeof AuthenticatedCalendarRoute
-  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
-  AuthenticatedCustomersIdRoute: typeof AuthenticatedCustomersIdRoute
-  AuthenticatedCustomersIndexRoute: typeof AuthenticatedCustomersIndexRoute
+interface WebAuthenticatedRouteChildren {
+  WebAuthenticatedBookingsRoute: typeof WebAuthenticatedBookingsRoute
+  WebAuthenticatedCalendarRoute: typeof WebAuthenticatedCalendarRoute
+  WebAuthenticatedDashboardRoute: typeof WebAuthenticatedDashboardRoute
+  WebAuthenticatedCustomersIdRoute: typeof WebAuthenticatedCustomersIdRoute
+  WebAuthenticatedCustomersIndexRoute: typeof WebAuthenticatedCustomersIndexRoute
 }
 
-const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
-  AuthenticatedBookingsRoute: AuthenticatedBookingsRoute,
-  AuthenticatedCalendarRoute: AuthenticatedCalendarRoute,
-  AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
-  AuthenticatedCustomersIdRoute: AuthenticatedCustomersIdRoute,
-  AuthenticatedCustomersIndexRoute: AuthenticatedCustomersIndexRoute,
+const WebAuthenticatedRouteChildren: WebAuthenticatedRouteChildren = {
+  WebAuthenticatedBookingsRoute: WebAuthenticatedBookingsRoute,
+  WebAuthenticatedCalendarRoute: WebAuthenticatedCalendarRoute,
+  WebAuthenticatedDashboardRoute: WebAuthenticatedDashboardRoute,
+  WebAuthenticatedCustomersIdRoute: WebAuthenticatedCustomersIdRoute,
+  WebAuthenticatedCustomersIndexRoute: WebAuthenticatedCustomersIndexRoute,
 }
 
-const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
-  AuthenticatedRouteChildren,
-)
+const WebAuthenticatedRouteWithChildren =
+  WebAuthenticatedRoute._addFileChildren(WebAuthenticatedRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
   MobileRouteRoute: MobileRouteRouteWithChildren,
-  AuthenticatedRoute: AuthenticatedRouteWithChildren,
+  WebAuthenticatedRoute: WebAuthenticatedRouteWithChildren,
+  WebIndexRoute: WebIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

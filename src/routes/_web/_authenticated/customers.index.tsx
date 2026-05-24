@@ -6,7 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { CustomerForm } from "@/components/CustomerForm";
+import { CustomerForm } from "@/components/shared/CustomerForm";
 import { downloadCsv, exportPdf } from "@/lib/csv";
 import { formatDate } from "@/lib/utils";
 import {
@@ -19,7 +19,7 @@ type Customer = Database["public"]["Tables"]["customers"]["Row"];
 
 const PAGE_SIZE = 10;
 
-export const Route = createFileRoute("/_authenticated/customers/")({
+export const Route = createFileRoute("/_web/_authenticated/customers/")({
   component: CustomersPage,
 });
 

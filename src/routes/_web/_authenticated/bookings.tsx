@@ -6,8 +6,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { BookingForm, RIDE_STATUS, PAYMENT_STATUS } from "@/components/BookingForm";
-import { RideBadge, PayBadge } from "@/components/StatusBadges";
+import { BookingForm, RIDE_STATUS, PAYMENT_STATUS } from "@/components/shared/BookingForm";
+import { RideBadge, PayBadge } from "@/components/shared/StatusBadges";
 import { formatDate } from "@/lib/utils";
 import { downloadCsv } from "@/lib/csv";
 import {
@@ -22,7 +22,7 @@ type BookingRow = Database["public"]["Tables"]["bookings"]["Row"] & {
 
 const PAGE_SIZE = 12;
 
-export const Route = createFileRoute("/_authenticated/bookings")({
+export const Route = createFileRoute("/_web/_authenticated/bookings")({
   component: BookingsPage,
 });
 

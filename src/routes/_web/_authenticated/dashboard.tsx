@@ -3,10 +3,10 @@ import { useEffect, useState } from "react";
 import { Users, CarFront, Calendar as CalendarIcon, DollarSign, TrendingUp, Crown } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Skeleton } from "@/components/ui/skeleton";
-import { RideBadge, PayBadge } from "@/components/StatusBadges";
+import { RideBadge, PayBadge } from "@/components/shared/StatusBadges";
 import { Link } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/_authenticated/dashboard")({
+export const Route = createFileRoute("/_web/_authenticated/dashboard")({
   component: Dashboard,
 });
 

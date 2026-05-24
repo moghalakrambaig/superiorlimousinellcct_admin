@@ -1,8 +1,8 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
-import { AppSidebar, MobileTopBar } from "@/components/AppSidebar";
+import { AppSidebar, MobileTopBar } from "@/components/web/AppSidebar";
 import bgVideo from "@/assets/bg.mp4?url";
 
-export const Route = createFileRoute("/_authenticated")({
+export const Route = createFileRoute("/_web/_authenticated")({
   component: AuthLayout,
 });
 

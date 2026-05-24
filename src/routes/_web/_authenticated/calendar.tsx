@@ -3,10 +3,10 @@ import { useEffect, useMemo, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { RideBadge } from "@/components/StatusBadges";
+import { RideBadge } from "@/components/shared/StatusBadges";
 import { formatDate } from "@/lib/utils";
 
-export const Route = createFileRoute("/_authenticated/calendar")({
+export const Route = createFileRoute("/_web/_authenticated/calendar")({
   component: CalendarPage,
 });
 
